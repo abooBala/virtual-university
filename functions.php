@@ -20,4 +20,20 @@ function theme_features() {
 
 add_action('after_setup_theme', 'theme_features');
 
+// Add Custom Post Types
+function school_post_types() {
+    register_post_type('event', array(
+        'public' => true,
+        'labels' => array(
+            'name'=> 'Events',
+            'add_new_item' => 'Add New Event',
+            'edit_item' => 'Edit Event',
+            'singular_name' => 'Event'
+        ),
+        'menu_icon' => 'dashicons-calendar'
+    ));
+}
+
+add_action('init', 'school_post_types');
+
 ?>
