@@ -20,7 +20,7 @@ function theme_features() {
 
 add_action('after_setup_theme', 'theme_features');
 
-// Add Custom Post Types
+// Add Custom Post Types. You may add this to your mu-plugins folder
 function school_post_types() {
     register_post_type('event', array(
         'supports' => array('title', 'editor','excerpt'),
