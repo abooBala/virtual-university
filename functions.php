@@ -22,6 +22,7 @@ add_action('after_setup_theme', 'theme_features');
 
 // Add Custom Post Types. You may add this to your mu-plugins folder
 function school_post_types() {
+    // Events custom post type
     register_post_type('event', array(
         'supports' => array('title', 'editor','excerpt'),
         'show_in_rest' => true,
@@ -35,10 +36,57 @@ function school_post_types() {
             'edit_item' => 'Edit Event',
             'singular_name' => 'Event'
         ),
-        'menu_icon' => 'dashicons-calendar'
+        'menu_icon' => 'dashicons-calendar'       
+        
+    ));
+
+    // Programs custom post type
+    register_post_type('program', array(
+        'supports' => array('title', 'editor'),
+        'show_in_rest' => true,
+        'rewrite' => array('slug' => 'programs'),
+        'has_archive' => true,
+        'public' => true,
+        'show_in_rest' => true,
+        'labels' => array(
+            'name'=> 'Programs',
+            'add_new_item' => 'Add New Program',
+            'edit_item' => 'Edit Program',
+            'singular_name' => 'Program'
+        ),
+        'menu_icon' => 'dashicons-awards'       
+        
     ));
 }
 
 add_action('init', 'school_post_types');
+
+function adjust_queries($query) {
+
+    if (!is_admin() AND is_post_type_archive('event') AND is_main_query()) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+    }
+
+
+    if (!is_admin() AND is_post_type_archive('event') AND is_main_query()) {
+        $today = date('Ymd');
+        $query->set('meta-key', 'event-date');
+        $query->set('orderby', 'meta-value-num');
+        $query->set('order','ASC');
+        $query->set('meta-query', array(
+            array(
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'typer' => 'numberic'
+            )
+            ));
+    }
+
+}
+
+add_action('pre_get_posts', 'adjust_queries' )
 
 ?>
