@@ -16,6 +16,7 @@ function theme_features() {
     add_theme_support('post-thumbnails');
     add_image_size('landscape', 400, 250, true);
     add_image_size('portrait', 350, 600, true);
+    add_image_size('pageBanner', 1500, 350, true);
     register_nav_menu('headerMenuLocation', 'Header Menu Location');
     register_nav_menu('footerLocationOne', 'Footer Location One');
     register_nav_menu('footerLocationTwo', 'Footer Location Two');
