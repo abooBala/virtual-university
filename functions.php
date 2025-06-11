@@ -13,6 +13,9 @@ add_action('wp_enqueue_scripts', 'style_files');
 
 function theme_features() {
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_image_size('landscape', 400, 250, true);
+    add_image_size('portrait', 350, 600, true);
     register_nav_menu('headerMenuLocation', 'Header Menu Location');
     register_nav_menu('footerLocationOne', 'Footer Location One');
     register_nav_menu('footerLocationTwo', 'Footer Location Two');
@@ -60,7 +63,7 @@ function school_post_types() {
 
         // Professor custom post type
         register_post_type('professor', array(
-            'supports' => array('title', 'editor'),
+            'supports' => array('title', 'editor', 'thumbnail'),
             'show_in_rest' => true,
             'public' => true,
             'show_in_rest' => true,
