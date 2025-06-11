@@ -20,13 +20,13 @@
       <?php
       $today = date('Ymd');
       $home_events = new WP_Query(array(
-        'posts_per_page' => -1,
+        'posts_per_page' => 2,
         'post_type' => 'event',
         'meta_key' => 'event_date',
         'order_by' => 'meta_value_num',
         'order' => 'DESC',
         'meta_query' => array(
-          'key'=> 'event_date',
+          'key' => 'event_date',
           'compare' => '>=',
           'value' => $today,
           'type' => 'numeric'
@@ -37,27 +37,28 @@
         $home_events->the_post(); ?>
         <div class="event-summary">
           <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-            <span class="event-summary__month"><?php 
-              $eventDate = new DateTime(get_field('event_date'));
-              echo $eventDate->format('M');              
+            <span class="event-summary__month"><?php
+            $eventDate = new DateTime(get_field('event_date'));
+            echo $eventDate->format('M');
             ?></span>
             <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
           </a>
           <div class="event-summary__content">
-            <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+            <h5 class="event-summary__title headline headline--tiny"><a
+                href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
             <p><?php if (has_excerpt()) {
               echo get_the_excerpt();
             } else {
               echo wp_trim_words(get_the_content(), 15);
-            } ?><a href="<?php the_permalink(); ?>"
-                class="nu gray">Learn more</a></p>
+            } ?><a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
           </div>
         </div>
         <?php
       }
       ?>
 
-      <p class="t-center no-margin"><a href="<?php echo get_post_type_archive_link('event'); ?>" class="btn btn--blue">View All Events</a></p>
+      <p class="t-center no-margin"><a href="<?php echo get_post_type_archive_link('event'); ?>"
+          class="btn btn--blue">View All Events</a></p>
     </div>
   </div>
   <div class="full-width-split__two">
@@ -82,8 +83,7 @@
               echo get_the_excerpt();
             } else {
               echo wp_trim_words(get_the_content(), 20);
-            } ?><a href="<?php the_permalink(); ?>"
-                class="nu gray">Read more</a></p>
+            } ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
           </div>
         </div>
       <?php }
