@@ -58,6 +58,24 @@ add_action('after_setup_theme', 'theme_features');
 
 // Add Custom Post Types. You may add this to your mu-plugins folder
 function school_post_types() {
+
+    // Campus custom post type
+    register_post_type('campus', array(
+        'supports' => array('title', 'editor','excerpt'),
+        'show_in_rest' => true,
+        'rewrite' => array('slug' => 'campuses'),
+        'has_archive' => true,
+        'public' => true,
+        'show_in_rest' => true,
+        'labels' => array(
+            'name'=> 'Campuses',
+            'add_new_item' => 'Add New Campus',
+            'edit_item' => 'Edit Campus',
+            'singular_name' => 'Campus'
+        ),
+        'menu_icon' => 'dashicons-location-alt'       
+        
+    ));
     // Events custom post type
     register_post_type('event', array(
         'supports' => array('title', 'editor','excerpt'),
@@ -139,6 +157,12 @@ function adjust_queries($query) {
 
 }
 
-add_action('pre_get_posts', 'adjust_queries' )
+add_action('pre_get_posts', 'adjust_queries' );
 
-?>
+function googleMapKey($api) {
+    $api['key'] = 'add your API key in this quote';
+    return $api;
+}
+
+
+add_filter('acf/fields/campus_location/api', 'googleMapKey');
