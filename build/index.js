@@ -4034,20 +4034,46 @@ class Search {
     this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".js-search-trigger");
     this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay__close");
     this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay");
+    this.searchField = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-term");
+    this.resultsOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-overlay__results");
     this.event();
+    this.typingTimer;
+    this.previousValue;
     this.isOverlayOpen = false;
+    this.spinnerVisible = false;
   }
 
   // Events
   event() {
     this.openButton.on("click", this.openOverlay.bind(this));
     this.closeButton.on("click", this.closeOverlay.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keyup", this.keyPressDispacher.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keydown", this.keyPressDispacher.bind(this));
+    this.searchField.on("keyup", this.typingLogic.bind(this));
   }
 
   // Methods
+  typingLogic() {
+    if (this.searchField.val() != this.previousValue) {
+      clearTimeout(this.typingTimer);
+      if (this.searchField.val()) {
+        if (!this.spinnerVisible) {
+          this.resultsOverlay.html('<div class="spinner-loader"></div>');
+          this.spinnerVisible = true;
+        }
+        this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+      } else {
+        this.resultsOverlay.html('');
+        this.spinnerVisible = false;
+      }
+    }
+    this.previousValue = this.searchField.val();
+  }
+  getResults() {
+    this.resultsOverlay.html("Will this show up");
+    this.spinnerVisible = false;
+  }
   keyPressDispacher(e) {
-    if (e.keyCode == 83 && !this.isOverlayOpen) {
+    if (e.keyCode == 83 && !this.isOverlayOpen && !jquery__WEBPACK_IMPORTED_MODULE_0___default()("input, textarea").is(':focus')) {
       this.openOverlay();
     }
     if (e.keyCode == 27 && this.isOverlayOpen) {
@@ -4057,13 +4083,11 @@ class Search {
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").addClass("body-no-scroll");
-    console.log("overlay open");
     this.isOverlayOpen = true;
   }
   closeOverlay() {
     this.searchOverlay.removeClass("search-overlay--active");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").removeClass("body-no-scroll");
-    console.log("overlay close");
     this.isOverlayOpen = false;
   }
 }
