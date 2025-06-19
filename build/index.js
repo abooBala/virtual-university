@@ -4069,8 +4069,9 @@ class Search {
     this.previousValue = this.searchField.val();
   }
   getResults() {
-    this.resultsOverlay.html("Will this show up");
-    this.spinnerVisible = false;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON('http://virtual-school.local/wp-json/wp/v2/posts?search=' + this.searchField.val(), function (posts) {
+      alert(posts[0].title.rendered);
+    });
   }
   keyPressDispacher(e) {
     if (e.keyCode == 83 && !this.isOverlayOpen && !jquery__WEBPACK_IMPORTED_MODULE_0___default()("input, textarea").is(':focus')) {

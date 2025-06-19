@@ -46,8 +46,9 @@ class Search {
     }
 
     getResults() {
-        this.resultsOverlay.html("Will this show up");
-        this.spinnerVisible = false;
+        $.getJSON('http://virtual-school.local/wp-json/wp/v2/posts?search=' + this.searchField.val(), function (posts) {
+            alert(posts[0].title.rendered);
+        });
     }
 
     keyPressDispacher(e) {
